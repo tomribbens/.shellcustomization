@@ -1,0 +1,5 @@
+deflog on
+logfile .screenlogs/screenlog-%H-%n-%t-%Y%m%d.log
+startup_message off
+caption always "%?%F%{-b bc}%:%{-b bb}%?%c|%D|%M %d|%l|%H%?%F%{+u wb}%? %L=%-Lw%45>%{+b by}%n%f* %t%{-}%+Lw%-0<"
+#setenv SSH_AUTH_SOCK $HOME/.ssh/ssh_auth_sock
