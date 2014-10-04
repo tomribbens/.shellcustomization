@@ -7,3 +7,7 @@ ln -is ~/.shellcustomization/.bash_profile ~/
 ln -is ~/.shellcustomization/.screenrc ~/
 ln -is ~/.shellcustomization/.gitconfig ~/
 
+# Make directory for screenlogs
+mkdir ~/.screenlogs
+# Make directory for screenlogs
+mkdir ~/.screenlogs
