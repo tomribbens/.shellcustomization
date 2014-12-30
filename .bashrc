@@ -17,6 +17,8 @@ fi
 
 # Put your fun stuff here.
 alias sudo='source ~/.ssh/ssh_env_vars; sudo'
+alias git='source ~/.ssh/ssh_env_vars; git'
+alias ssh='source ~/.ssh/ssh_env_vars; ssh'
 alias please='sudo $(history -p !!)'
 alias ll='ls -lh'
 alias la='ls -la'
