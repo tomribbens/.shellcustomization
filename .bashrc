@@ -23,5 +23,11 @@ alias please='sudo $(history -p !!)'
 alias ll='ls -lh'
 alias la='ls -la'
 
+# If vim is installed, use it as the default editor
+if [[ -e /usr/bin/vim ]] ; then
+	export EDITOR='/usr/bin/vim'
+fi
+
+
 # Set the prompts:
 PS1="\[\033[01;37m\]\$? \$(if [[ \$? == 0 ]]; then echo \"\[\033[01;32m\];)\"; else echo \"\[\033[01;31m\];(\"; fi) $(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]\h'; else echo '\[\033[01;32m\]\u@\h'; fi)\[\033[01;34m\] \w \$\[\033[00m\] "
