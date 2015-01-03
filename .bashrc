@@ -22,6 +22,7 @@ alias ssh='source ~/.ssh/ssh_env_vars; ssh'
 alias please='sudo $(history -p !!)'
 alias ll='ls -lh'
 alias la='ls -la'
+alias d1='du -h --max-depth=1'
 
 # If vim is installed, use it as the default editor
 if [[ -e /usr/bin/vim ]] ; then
