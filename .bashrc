@@ -40,7 +40,7 @@ if [[ -d ~/.bashrc.d ]]; then
 	do
 		if [ -f $SCRIPT ]
 		then
-			$SCRIPT
+			source $SCRIPT
 		fi
 	done
 fi
