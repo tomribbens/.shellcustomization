@@ -44,3 +44,10 @@ if [[ -d ~/.bashrc.d ]]; then
 		fi
 	done
 fi
+
+# Check if a .bashrc for the specific host exist
+LOCALFILE="${HOME}/.shellcustomization/.bashrc_$(hostname -f)"
+if [[ -e ${LOCALFILE} && -f ${LOCALFILE} ]] ; then
+	# Local file exists, now source it
+	source ${LOCALFILE}
+fi

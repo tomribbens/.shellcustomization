@@ -1,0 +1,3 @@
+# Local settings for db.aginti.eu
+
+export PATH=${PATH}:/home/tom/bin
