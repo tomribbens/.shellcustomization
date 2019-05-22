@@ -14,6 +14,11 @@ if [[ $- != *i* ]] ; then
 	return
 fi
 
+# If ~/bin/ exists, add it to $PATH
+if [[ ":$PATH:" != *":$HOME/bin:"* && ":$PATH:" != *":~/bin:"* ]] && [[ -d ~/bin/ ]]; then
+    export PATH=$PATH:~/bin
+fi
+
 
 # Put your fun stuff here.
 alias sudo='source ~/.ssh/ssh_env_vars; sudo'
