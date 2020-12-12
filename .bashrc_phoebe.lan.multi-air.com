@@ -1,3 +1,3 @@
 # Local settings for phoebe
 
-export PATH=${PATH}:~/.local/bin
+source ~/.flexget/bin/activate
