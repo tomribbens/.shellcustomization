@@ -19,9 +19,13 @@ if [[ ":$PATH:" != *":$HOME/bin:"* && ":$PATH:" != *":~/bin:"* ]] && [[ -d ~/bin
     export PATH=$PATH:~/bin
 fi
 
+# If ~/.local/bin/ exists, add it to $PATH
+if [[ ":$PATH:" != *":$HOME/.local/bin:"* && ":$PATH:" != *":~/.local/bin:"* ]] && [[ -d ~/.local/bin/ ]]; then
+    export PATH=$PATH:~/.local/bin
+fi
 
 # Put your fun stuff here.
-alias sudo='source ~/.ssh/ssh_env_vars; sudo'
+alias sudo='source ~/.ssh/ssh_env_vars; sudo '
 alias git='source ~/.ssh/ssh_env_vars; git'
 alias ssh='source ~/.ssh/ssh_env_vars; ssh'
 alias please='sudo $(history -p !!)'
@@ -29,7 +33,7 @@ alias ll='ls -lh'
 alias la='ls -la'
 alias d1='du -h --max-depth=1'
 alias ifconfig='source ~/.ssh/ssh_env_vars; sudo ifconfig'
-alias sudo='sudo ' # Allow aliases to be used with sudo. See http://askubuntu.com/questions/22037/aliases-not-available-when-using-sudo
+# alias sudo='sudo ' # Allow aliases to be used with sudo. See http://askubuntu.com/questions/22037/aliases-not-available-when-using-sudo
 alias tb="nc termbin.com 9999"
 
 # If vim is installed, use it as the default editor

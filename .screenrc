@@ -4,6 +4,8 @@ startup_message off
 caption always "%?%F%{-b bc}%:%{-b bb}%?%c|%D|%M %d|%l|%H%?%F%{+u wb}%? %L=%-Lw%45>%{+b by}%n%f* %t%{-}%+Lw%-0<"
 shell $SHELL
 
+focusminsize 100
+
 screen 0
 screen 9 $HOME/.shellcustomization/update.sh
 select 0
