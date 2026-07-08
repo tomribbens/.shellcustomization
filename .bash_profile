@@ -15,5 +15,8 @@ fi
 # runs your .bashrc and is recommended by the bash info pages.
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
-# Start screen
-screen -xRR
+# Start screen, unless this host opts out. Create ~/.no_auto_screen (e.g. on a
+# local workstation where you want the dotfiles but not the auto screen login).
+if [ ! -e ~/.no_auto_screen ]; then
+	screen -xRR
+fi
