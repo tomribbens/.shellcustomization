@@ -13,6 +13,13 @@ else
   ln -is ~/.shellcustomization/authorized_keys ~/.ssh/
 fi
 
+# Link host-specific authorized keys as authorized_keys2, if a file for this
+# host exists. sshd reads both files by default (AuthorizedKeysFile setting).
+HOSTKEYS=~/.shellcustomization/authorized_keys_$(hostname -f)
+if [ -e "${HOSTKEYS}" ]; then
+  ln -is "${HOSTKEYS}" ~/.ssh/authorized_keys2
+fi
+
 # Link files
 ln -is ~/.shellcustomization/.bashrc ~/
 ln -is ~/.shellcustomization/.bash_profile ~/
