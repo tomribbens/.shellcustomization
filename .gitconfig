@@ -3,3 +3,9 @@
 	email = tom@tomribbens.be
 [push]
 	default = matching
+[init]
+	defaultBranch = main
+[safe]
+	directory = /home/tom/github-actions-runner/_work/mobitwin-companion/mobitwin-companion
+	directory = /home/tom/gh-action-runners/manimo-tests/_work/94-manimo-v2/94-manimo-v2
+	directory = /home/tom/gh-action-runners/mobitwin-deploy/_work/mobitwin-companion/mobitwin-companion
