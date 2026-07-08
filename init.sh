@@ -5,7 +5,7 @@
 # If any are missing, print the install command for the detected package
 # manager and offer to run it (never installs without asking).
 # ---------------------------------------------------------------------------
-REQUIRED_CMDS="git screen vim gzip lsof"
+REQUIRED_CMDS=(git screen vim gzip lsof)
 
 # Gentoo needs category/name atoms; every other package manager below uses the
 # bare command name, which matches the package name for all of these tools.
@@ -20,29 +20,30 @@ emerge_atom() {
   esac
 }
 
-missing=""
-for cmd in ${REQUIRED_CMDS}; do
-  command -v "${cmd}" >/dev/null 2>&1 || missing="${missing} ${cmd}"
+missing=()
+for cmd in "${REQUIRED_CMDS[@]}"; do
+  command -v "${cmd}" >/dev/null 2>&1 || missing+=("${cmd}")
 done
 
-if [ -n "${missing}" ]; then
-  echo "Missing required tools:${missing}" >&2
+if [ "${#missing[@]}" -gt 0 ]; then
+  echo "Missing required tools: ${missing[*]}" >&2
 
   if command -v emerge >/dev/null 2>&1; then
-    atoms=""; for c in ${missing}; do atoms="${atoms} $(emerge_atom "${c}")"; done
-    install_cmd="sudo emerge --ask${atoms}"
+    atoms=()
+    for c in "${missing[@]}"; do atoms+=("$(emerge_atom "${c}")"); done
+    install_cmd="sudo emerge --ask ${atoms[*]}"
   elif command -v apt-get >/dev/null 2>&1; then
-    install_cmd="sudo apt-get install${missing}"
+    install_cmd="sudo apt-get install ${missing[*]}"
   elif command -v dnf >/dev/null 2>&1; then
-    install_cmd="sudo dnf install${missing}"
+    install_cmd="sudo dnf install ${missing[*]}"
   elif command -v yum >/dev/null 2>&1; then
-    install_cmd="sudo yum install${missing}"
+    install_cmd="sudo yum install ${missing[*]}"
   elif command -v pacman >/dev/null 2>&1; then
-    install_cmd="sudo pacman -S${missing}"
+    install_cmd="sudo pacman -S ${missing[*]}"
   elif command -v zypper >/dev/null 2>&1; then
-    install_cmd="sudo zypper install${missing}"
+    install_cmd="sudo zypper install ${missing[*]}"
   elif command -v apk >/dev/null 2>&1; then
-    install_cmd="sudo apk add${missing}"
+    install_cmd="sudo apk add ${missing[*]}"
   else
     install_cmd=""
   fi
@@ -109,6 +110,19 @@ if [ -e "${HOSTKEYS}" ]; then
   fi
 fi
 
+# Pull the shared SSH client defaults (ssh_config) into ~/.ssh/config via an
+# Include line, without clobbering host-specific entries already there. Also
+# create the connection-multiplexing control dir with safe perms.
+mkdir -p ~/.ssh/control
+chmod 700 ~/.ssh ~/.ssh/control 2>/dev/null
+INCLUDE_LINE="Include ~/.shellcustomization/ssh_config"
+if [ ! -e ~/.ssh/config ] || ! grep -qxF "${INCLUDE_LINE}" ~/.ssh/config; then
+  { echo "${INCLUDE_LINE}"; echo; cat ~/.ssh/config 2>/dev/null; } > ~/.ssh/config.new
+  mv ~/.ssh/config.new ~/.ssh/config
+  chmod 600 ~/.ssh/config
+  echo "Added '${INCLUDE_LINE}' to ~/.ssh/config."
+fi
+
 # Link files
 link ~/.shellcustomization/.bashrc ~/.bashrc
 link ~/.shellcustomization/.bash_profile ~/.bash_profile
@@ -117,6 +131,7 @@ link ~/.shellcustomization/.gitconfig ~/.gitconfig
 link ~/.shellcustomization/.vimrc ~/.vimrc
 link ~/.shellcustomization/.inputrc ~/.inputrc
 link ~/.shellcustomization/.dircolors ~/.dircolors
+link ~/.shellcustomization/.gitignore_global ~/.gitignore_global
 
 # Make directory for screenlogs
 mkdir -p ~/.screenlogs

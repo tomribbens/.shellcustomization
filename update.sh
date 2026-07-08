@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cd ~/.shellcustomization
+cd ~/.shellcustomization || exit 1
 git pull

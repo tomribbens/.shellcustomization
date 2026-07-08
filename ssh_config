@@ -1,0 +1,21 @@
+# Shared SSH client defaults, managed by .shellcustomization.
+#
+# This file is pulled in from ~/.ssh/config via an "Include" line that init.sh
+# adds, so host-specific entries stay in ~/.ssh/config and are not overwritten.
+# ssh uses the first value it sees for each option, and host-specific blocks in
+# ~/.ssh/config appear before this Host * block, so they still take precedence.
+
+Host *
+    # Keep idle connections alive instead of letting them silently drop.
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+
+    # Add a key to the agent the first time it's used.
+    AddKeysToAgent yes
+
+    # Reuse a single connection for repeated ssh/scp to the same host, so
+    # subsequent connects are near-instant. The control socket lives in a
+    # dedicated dir that init.sh creates with 0700 perms.
+    ControlMaster auto
+    ControlPath ~/.ssh/control/%r@%h:%p
+    ControlPersist 10m

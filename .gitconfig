@@ -15,8 +15,16 @@
 	prune = true
 [core]
 	editor = vim
+	excludesfile = ~/.gitignore_global
+[rebase]
+	autostash = true
 [merge]
 	conflictstyle = zdiff3
+[commit]
+	verbose = true
+[diff]
+	algorithm = histogram
+	colorMoved = zebra
 [color]
 	ui = auto
 [alias]

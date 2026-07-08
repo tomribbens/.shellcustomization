@@ -1,0 +1,18 @@
+# Global gitignore, applied to every repo via core.excludesfile.
+
+# Editor / temp files
+*~
+*.swp
+*.swo
+*.bak
+.*.un~
+
+# Vim persistent undo/backup (see .vimrc)
+*.un~
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Direnv
+.envrc.local

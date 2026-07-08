@@ -61,7 +61,9 @@ On hosts running the auto-screen login (see below), a dedicated screen window
 | `.vimrc` | Vim config with persistent undo and swap/backup dirs under `~/.vim`. |
 | `.gitconfig` | Git identity, aliases, and quality-of-life defaults (see below). |
 | `.dircolors` | `LS_COLORS` palette applied by `.bashrc`. |
+| `.gitignore_global` | Ignore patterns applied to every repo via `core.excludesfile`. |
 | `authorized_keys` | Shared SSH public keys → `~/.ssh/authorized_keys`. |
+| `ssh_config` | Shared SSH **client** defaults, pulled into `~/.ssh/config` via an `Include` line (not symlinked — see below). |
 
 ### Scripts
 
@@ -118,6 +120,17 @@ safe to run — and deletes archives older than `RETENTION_DAYS` (365) to bound
 growth. It runs backgrounded from `.bash_profile` on every login (no cron
 dependency).
 
+### SSH client defaults (connection reuse, keepalives)
+
+`ssh_config` holds shared client defaults (a `Host *` block: `ControlMaster`
+connection multiplexing, `ServerAliveInterval` keepalives, `AddKeysToAgent`).
+`init.sh` prepends an `Include ~/.shellcustomization/ssh_config` line to
+`~/.ssh/config` rather than symlinking it, so your host-specific `Host` entries
+stay put and are never overwritten. It also creates `~/.ssh/control` (mode
+0700) for the multiplexing sockets. ssh uses the first value it sees per option,
+and host-specific blocks (earlier in the file) still win over the `Host *`
+defaults.
+
 ### Local `.bashrc` drop-ins
 
 `.bashrc` also sources any regular file in `~/.bashrc.d/`, for machine-local
@@ -127,8 +140,16 @@ tweaks you don't want committed to the repo.
 
 - Rewrites `https://github.com/` remotes to SSH automatically.
 - `pull.ff = only` — refuses to silently create a merge on divergence.
+- `rebase.autostash` — auto-stashes/reapplies local changes around a rebase.
 - `rerere.enabled` — remembers conflict resolutions.
 - `fetch.prune`, `merge.conflictstyle = zdiff3`, `core.editor = vim`.
+- `diff.algorithm = histogram`, `diff.colorMoved = zebra`, `commit.verbose`.
+- `core.excludesfile = ~/.gitignore_global`.
 - Aliases: `git st` (`status -sb`), `git lg` (graph log).
 - `[safe]` entries are host-local CI runner paths (added by a self-hosted
   GitHub Actions runner).
+
+## Continuous integration
+
+`.github/workflows/shellcheck.yml` runs `shellcheck` over the shell scripts on
+every push and pull request, using a GitHub-hosted `ubuntu-latest` runner.

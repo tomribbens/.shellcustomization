@@ -149,8 +149,9 @@ set notimeout ttimeout ttimeoutlen=200
 " Use <F11> to toggle between 'paste' and 'nopaste'
 set pastetoggle=<F11>
  
-" More appropriate colorscheme for dark terminals
-colorscheme koehler
+" More appropriate colorscheme for dark terminals (silent! so vim doesn't error
+" on hosts where this scheme isn't installed)
+silent! colorscheme koehler
  
 "------------------------------------------------------------
 " Indentation options {{{1
