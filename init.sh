@@ -22,3 +22,6 @@ ln -is ~/.shellcustomization/.vimrc ~/
 
 # Make directory for screenlogs
 mkdir ~/.screenlogs
+
+# Make directories for vim undo/swap/backup files (see .vimrc)
+mkdir -p ~/.vim/undo ~/.vim/swap ~/.vim/backup

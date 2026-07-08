@@ -59,6 +59,9 @@ set showcmd
 " Highlight searches (use <C-L> to temporarily turn off highlighting; see the
 " mapping of <C-L> below)
 set hlsearch
+
+" Jump to search matches incrementally as you type
+set incsearch
  
 " Modelines have historically been a source of security vulnerabilities. As
 " such, it may be a good idea to disable them and use the securemodelines
@@ -101,6 +104,26 @@ set laststatus=2
 " dialogue asking if you wish to save changed files.
 set confirm
  
+" Keep a few lines/columns of context visible around the cursor
+set scrolloff=3
+set sidescrolloff=5
+
+" Briefly jump to the matching bracket when one is inserted
+set showmatch
+
+" Don't redraw while executing macros, for better performance
+set lazyredraw
+
+" Persist undo history and keep swap/backup files out of working directories.
+" These dirs must exist or Vim silently falls back (see init.sh).
+set undofile
+set undodir=~/.vim/undo//
+set directory=~/.vim/swap//
+set backupdir=~/.vim/backup//
+
+" Show a column guide at 100 characters
+set colorcolumn=100
+
 " Use visual bell instead of beeping when doing something wrong
 set visualbell
  
@@ -116,8 +139,9 @@ set mouse=a
 " "press <Enter> to continue"
 set cmdheight=2
  
-" Display line numbers on the left
+" Display line numbers on the left, relative to the cursor for easy motions
 set number
+set relativenumber
  
 " Quickly time out on keycodes, but never time out on mappings
 set notimeout ttimeout ttimeoutlen=200
