@@ -87,8 +87,13 @@ fi
 # Set the prompts:
 PS1="\[\033[01;37m\]\$? \$(if [[ \$? == 0 ]]; then echo \"\[\033[01;32m\];)\"; else echo \"\[\033[01;31m\];(\"; fi) $(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]\h'; else echo '\[\033[01;32m\]\u@\h'; fi)\[\033[01;35m\] \w \$\[\033[00m\] "
 
-# Apply the dircolors settings
-eval "$(dircolors ~/.dircolors)"
+# Apply the dircolors settings, falling back to built-in defaults if the
+# custom file isn't linked on this host yet (init.sh links it).
+if [ -r ~/.dircolors ]; then
+	eval "$(dircolors ~/.dircolors)"
+else
+	eval "$(dircolors)"
+fi
 
 # Add possibility to add local .bashrc extensions
 if [[ -d ~/.bashrc.d ]]; then
