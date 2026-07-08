@@ -80,7 +80,7 @@ These let one shared repo behave differently per machine without branching:
 
 | Pattern | Effect |
 |---------|--------|
-| `.bashrc_<fqdn>` | Sourced by `.bashrc` at the end if it matches `hostname -f`. Host-specific env/aliases. Examples in-repo: `db.aginti.eu`, `phoebe.lan.multi-air.com`. |
+| `.bashrc_<fqdn>` | Sourced by `.bashrc` at the end if it matches `hostname -f`. Host-specific env/aliases. |
 | `authorized_keys_<fqdn>` | Symlinked to `~/.ssh/authorized_keys2` by `init.sh` when it matches this host. Host-specific SSH keys, kept out of the shared `authorized_keys`. Example in-repo: `jessica.lan.tomribbens.be`. |
 
 ## Notable behaviours
