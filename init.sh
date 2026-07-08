@@ -78,7 +78,7 @@ then
   then
     link ~/.shellcustomization/authorized_keys ~/.ssh/authorized_keys
   else
-    echo "~/.ssh exists, but is not a directory"
+    echo "$HOME/.ssh exists, but is not a directory"
   fi
 else
   mkdir ~/.ssh
