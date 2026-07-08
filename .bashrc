@@ -28,6 +28,7 @@ HISTSIZE=100000
 HISTFILESIZE=200000
 HISTCONTROL=ignoreboth
 HISTTIMEFORMAT='%F %T '
+HISTIGNORE='ls:ll:la:cd:pwd:exit:clear:history'
 shopt -s histappend cmdhist
 PROMPT_COMMAND='history -a'
 
@@ -82,6 +83,17 @@ alias grep='grep --color=auto'
 if [[ -e /usr/bin/vim ]] ; then
 	export EDITOR='/usr/bin/vim'
 fi
+
+# Let less render colour escapes, and colourise man pages via less's termcap
+# capabilities (bold -> cyan, underline -> green, etc.).
+export LESS='-R'
+export LESS_TERMCAP_mb=$'\e[1;31m'      # begin blinking  -> bold red
+export LESS_TERMCAP_md=$'\e[1;36m'      # begin bold      -> bold cyan
+export LESS_TERMCAP_me=$'\e[0m'         # end mode
+export LESS_TERMCAP_so=$'\e[01;44;33m'  # begin standout  -> yellow on blue
+export LESS_TERMCAP_se=$'\e[0m'         # end standout
+export LESS_TERMCAP_us=$'\e[1;32m'      # begin underline -> bold green
+export LESS_TERMCAP_ue=$'\e[0m'         # end underline
 
 
 # Set the prompts:

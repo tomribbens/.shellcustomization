@@ -153,3 +153,6 @@ tweaks you don't want committed to the repo.
 
 `.github/workflows/shellcheck.yml` runs `shellcheck` over the shell scripts on
 every push and pull request, using a GitHub-hosted `ubuntu-latest` runner.
+
+`.github/dependabot.yml` opens a weekly PR when a GitHub Action used in the
+workflows (e.g. `actions/checkout`) has a newer version.
