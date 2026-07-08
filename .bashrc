@@ -31,6 +31,10 @@ HISTTIMEFORMAT='%F %T '
 shopt -s histappend cmdhist
 PROMPT_COMMAND='history -a'
 
+# Shell behaviour: keep $LINES/$COLUMNS correct after resizing, enable **
+# recursive globbing, and forgive small cd typos.
+shopt -s checkwinsize globstar autocd cdspell dirspell
+
 # Programmable completion for git, systemctl, etc. (guarded for portability
 # across hosts that may not have bash-completion installed).
 if ! shopt -oq posix && [ -r /usr/share/bash-completion/bash_completion ]; then
@@ -59,6 +63,20 @@ alias d1='du -h --max-depth=1'
 alias ifconfig='sudo ifconfig'
 # alias sudo='sudo ' # Allow aliases to be used with sudo. See http://askubuntu.com/questions/22037/aliases-not-available-when-using-sudo
 alias tb="nc termbin.com 9999"
+
+# Quick directory navigation
+alias ..='cd ..'
+alias ...='cd ../..'
+mkcd() { mkdir -p "$1" && cd "$1"; }
+
+# Safety nets: prompt before clobbering/mass-deleting. rm -I asks once for 3+
+# files or recursive deletes, rather than nagging per file.
+alias rm='rm -I'
+alias cp='cp -i'
+alias mv='mv -i'
+
+# Highlight grep matches
+alias grep='grep --color=auto'
 
 # If vim is installed, use it as the default editor
 if [[ -e /usr/bin/vim ]] ; then
