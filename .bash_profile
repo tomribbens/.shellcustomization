@@ -15,8 +15,8 @@ fi
 # runs your .bashrc and is recommended by the bash info pages.
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
-# Compress finished screen logs in the background (this host has no working
-# cron; every login is a good enough trigger). Never blocks the login.
+# Compress finished screen logs in the background on every login. Never blocks
+# the login; the script is idempotent and skips logs still open by a window.
 if [ -x ~/.shellcustomization/compress-screenlogs.sh ]; then
 	~/.shellcustomization/compress-screenlogs.sh >/dev/null 2>&1 &
 	disown
