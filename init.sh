@@ -61,5 +61,22 @@ link ~/.shellcustomization/.dircolors ~/.dircolors
 # Make directory for screenlogs
 mkdir -p ~/.screenlogs
 
+# Install an hourly cron job to compress finished screen logs, if not already
+# present (idempotent). Skips with a note on hosts where the user crontab is
+# unusable (e.g. a misconfigured cron spool).
+CRON_CMD="$HOME/.shellcustomization/compress-screenlogs.sh"
+if command -v crontab >/dev/null 2>&1; then
+  current="$(crontab -l 2>/dev/null)"
+  if ! printf '%s\n' "${current}" | grep -qF "${CRON_CMD}"; then
+    if printf '%s\n17 * * * * %s\n' "${current}" "${CRON_CMD}" | crontab - 2>/dev/null; then
+      echo "Installed hourly screenlog compression cron job."
+    else
+      echo "NOTE: couldn't install the screenlog cron job (user crontab unavailable" >&2
+      echo "      on this host); invoke compress-screenlogs.sh from your login flow" >&2
+      echo "      or a system cron instead." >&2
+    fi
+  fi
+fi
+
 # Make directories for vim undo/swap/backup files (see .vimrc)
 mkdir -p ~/.vim/undo ~/.vim/swap ~/.vim/backup
