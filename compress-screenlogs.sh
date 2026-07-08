@@ -5,9 +5,14 @@
 # active log is skipped (its window still holds the file open) and picked up on
 # a later run once the window closes.
 #
+# It also prunes compressed logs older than RETENTION_DAYS to bound growth.
+#
 # Usage: compress-screenlogs.sh [logdir]   (default: ~/.screenlogs)
 
 LOGDIR="${1:-$HOME/.screenlogs}"
+
+# Delete *.log.gz older than this many days (set to 0 to keep forever).
+RETENTION_DAYS="${RETENTION_DAYS:-365}"
 
 [ -d "$LOGDIR" ] || exit 0
 
@@ -35,3 +40,8 @@ while IFS= read -r -d '' f; do
 		rm -f -- "$out"
 	fi
 done
+
+# Prune old archives. Scoped tightly: only *.log.gz directly in LOGDIR.
+if [ "${RETENTION_DAYS}" -gt 0 ]; then
+	find "$LOGDIR" -maxdepth 1 -type f -name '*.log.gz' -mtime +"${RETENTION_DAYS}" -delete
+fi

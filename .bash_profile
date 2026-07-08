@@ -15,6 +15,13 @@ fi
 # runs your .bashrc and is recommended by the bash info pages.
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
+# Compress finished screen logs in the background (this host has no working
+# cron; every login is a good enough trigger). Never blocks the login.
+if [ -x ~/.shellcustomization/compress-screenlogs.sh ]; then
+	~/.shellcustomization/compress-screenlogs.sh >/dev/null 2>&1 &
+	disown
+fi
+
 # Start screen, unless this host opts out. Create ~/.no_auto_screen (e.g. on a
 # local workstation where you want the dotfiles but not the auto screen login).
 if [ ! -e ~/.no_auto_screen ]; then
