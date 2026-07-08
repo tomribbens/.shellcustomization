@@ -4,6 +4,26 @@ Personal shell and tooling dotfiles, kept in one repo and shared across
 multiple hosts. Cloned to `~/.shellcustomization`; `init.sh` symlinks the files
 into `$HOME` so edits in the repo take effect live.
 
+## Requirements
+
+These dotfiles assume a Linux host with **bash** and GNU **coreutils** (used
+for `dircolors`), plus:
+
+| Tool | Used by |
+|------|---------|
+| `git` | `update.sh`, `.gitconfig` |
+| `screen` | `.bash_profile` auto-attach, `.screenrc` |
+| `vim` | `.vimrc`, `$EDITOR` |
+| `gzip` | `compress-screenlogs.sh` |
+| `lsof` | `compress-screenlogs.sh` (detecting logs still open) |
+
+Optional: **bash-completion** (sourced by `.bashrc` if present).
+
+`init.sh` checks for these on startup. If any are missing it prints the
+appropriate install command for the detected package manager (`emerge`, `apt`,
+`dnf`, `yum`, `pacman`, `zypper`, or `apk`) and offers to run it — it never
+installs anything without asking.
+
 ## Installation
 
 ```sh

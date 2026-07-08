@@ -1,5 +1,65 @@
 #!/bin/bash
 
+# ---------------------------------------------------------------------------
+# Dependency check: make sure the tools these dotfiles rely on are installed.
+# If any are missing, print the install command for the detected package
+# manager and offer to run it (never installs without asking).
+# ---------------------------------------------------------------------------
+REQUIRED_CMDS="git screen vim gzip lsof"
+
+# Gentoo needs category/name atoms; every other package manager below uses the
+# bare command name, which matches the package name for all of these tools.
+emerge_atom() {
+  case "$1" in
+    git)    echo dev-vcs/git ;;
+    screen) echo app-misc/screen ;;
+    vim)    echo app-editors/vim ;;
+    gzip)   echo app-arch/gzip ;;
+    lsof)   echo sys-process/lsof ;;
+    *)      echo "$1" ;;
+  esac
+}
+
+missing=""
+for cmd in ${REQUIRED_CMDS}; do
+  command -v "${cmd}" >/dev/null 2>&1 || missing="${missing} ${cmd}"
+done
+
+if [ -n "${missing}" ]; then
+  echo "Missing required tools:${missing}" >&2
+
+  if command -v emerge >/dev/null 2>&1; then
+    atoms=""; for c in ${missing}; do atoms="${atoms} $(emerge_atom "${c}")"; done
+    install_cmd="sudo emerge --ask${atoms}"
+  elif command -v apt-get >/dev/null 2>&1; then
+    install_cmd="sudo apt-get install${missing}"
+  elif command -v dnf >/dev/null 2>&1; then
+    install_cmd="sudo dnf install${missing}"
+  elif command -v yum >/dev/null 2>&1; then
+    install_cmd="sudo yum install${missing}"
+  elif command -v pacman >/dev/null 2>&1; then
+    install_cmd="sudo pacman -S${missing}"
+  elif command -v zypper >/dev/null 2>&1; then
+    install_cmd="sudo zypper install${missing}"
+  elif command -v apk >/dev/null 2>&1; then
+    install_cmd="sudo apk add${missing}"
+  else
+    install_cmd=""
+  fi
+
+  if [ -n "${install_cmd}" ]; then
+    echo "Suggested install command:" >&2
+    echo "    ${install_cmd}" >&2
+    read -r -p "Run it now? [y/N] " ans
+    case "${ans}" in
+      [yY]|[yY][eE][sS]) eval "${install_cmd}" ;;
+      *) echo "Skipping install; continuing with setup." >&2 ;;
+    esac
+  else
+    echo "No known package manager detected; please install the tools manually." >&2
+  fi
+fi
+
 # Create symlink $2 -> $1 idempotently: do nothing if it already points at the
 # right place (so re-running init.sh is silent), otherwise create it, prompting
 # before clobbering anything that already exists and isn't our link.
