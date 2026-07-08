@@ -2,4 +2,3 @@
 
 cd ~/.shellcustomization
 git pull
-readline

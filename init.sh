@@ -44,6 +44,7 @@ ln -is ~/.shellcustomization/.bash_profile ~/
 ln -is ~/.shellcustomization/.screenrc ~/
 ln -is ~/.shellcustomization/.gitconfig ~/
 ln -is ~/.shellcustomization/.vimrc ~/
+ln -is ~/.shellcustomization/.inputrc ~/
 
 # Make directory for screenlogs
 mkdir ~/.screenlogs

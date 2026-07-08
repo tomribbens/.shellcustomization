@@ -21,6 +21,22 @@ if [ -S "$HOME/.ssh/ssh_auth_sock" ] || [ -L "$HOME/.ssh/ssh_auth_sock" ]; then
 	export SSH_AUTH_SOCK="$HOME/.ssh/ssh_auth_sock"
 fi
 
+# History: keep lots of it, drop dupes/space-prefixed commands, timestamp
+# entries, and flush after every command so parallel screen windows don't
+# clobber each other's history on exit.
+HISTSIZE=100000
+HISTFILESIZE=200000
+HISTCONTROL=ignoreboth
+HISTTIMEFORMAT='%F %T '
+shopt -s histappend cmdhist
+PROMPT_COMMAND='history -a'
+
+# Programmable completion for git, systemctl, etc. (guarded for portability
+# across hosts that may not have bash-completion installed).
+if ! shopt -oq posix && [ -r /usr/share/bash-completion/bash_completion ]; then
+	. /usr/share/bash-completion/bash_completion
+fi
+
 # If ~/bin/ exists, add it to $PATH
 if [[ ":$PATH:" != *":$HOME/bin:"* && ":$PATH:" != *":~/bin:"* ]] && [[ -d ~/bin/ ]]; then
     export PATH=$PATH:~/bin
